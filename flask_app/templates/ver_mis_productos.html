@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <form action="/guadar_elecciones" method="post">
+            <input type="hidden" name="uid" value="{{usuario.id}}">
+            <div class="col-lg-9">
+                <div class="row">
+                    {% for product in productos %}
+                    <div class="col-lg-6">
+                        <div class="card mt-4">
+                            <img class="card-img-top img-fluid"
+                                src="/static/archivos/{{product.picture}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card card-outline-secondary my-4">
+                            <div class="card-header">
+                                Product Details
+                            </div>
+                            <div class="card-body">
+                                <a href="/ver_producto_individual/{{product.id}}" class="card-title">{{ product.pName}}</a>
+                                <h4>${{ product.price}}</h4>
+                                <p class="card-text">{{ product.description}}</p>
+                                <a href="/editar_producto/{{product.id}}">Editar</a>
+                                <a href="/eliminar_producto/{{product.id}}">Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>   
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

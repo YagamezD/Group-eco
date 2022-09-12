@@ -1,0 +1,142 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Add Product</h1>
+            {% include 'includes/_flashmsg.html' %}
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form" enctype=multipart/form-data class="" action="/actualizar_producto" method="post">
+                                <input type="hidden" name="user_id" value="{{producto.user_id}}">
+                                <input type="hidden" name="id" value="{{producto.id}}">
+                                <div class="form-group">
+                                    <label>Product Name</label>
+                                    <input class="form-control" required="required" name="pName" placeholder="Enter name" value="{{producto.pName}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input class="form-control" required="required" name="price" placeholder="Enter price" value="{{producto.price}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="form-control" required="required" name="description" rows="3"
+                                              placeholder="Write product description">{{producto.description}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Available</label>
+                                    <input class="form-control" required="required" name="available" placeholder="Available" value="{{producto.available}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <p>Si desea realizar cambios, seleccione la categoría correspondiente</p>
+                                    <select class="form-control" id="category_id" name="category">
+                                        <option value="" selected>Elija una opción</option>
+                                        <option value="belleza">Belleza</option>
+                                        <option value="hogar">Hogar</option>
+                                        <option value="relajacion">Relajación</option>
+                                        <option value="salud_mental">Salud Mental</option>
+                                    </select>
+                                </div>
+                                <div class="form-group level-container">
+                                    <div class="form-group haceralgo"  id='Bellezaseleccion' hidden="true">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="belleza" value="pedicure" >Pedicure
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="belleza" value="manicure">Manicure
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="belleza" value="maquillaje">Maquillaje
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="belleza" value="corte">Corte
+                                        </label>
+                                    </div>
+                                    <div class="form-group haceralgo" id='Hogarseleccion'  hidden="true">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="hogar" value="plomeria">Plomería
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="hogar" value="cerrajeria">Cerrajería
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="hogar" value="electricidad">Electricidad
+                                        </label>
+                                    </div>
+                                    <div class="form-group haceralgo" id='Relajaciónseleccion' hidden="true">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="relajacion" value="masajes">Masajes
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="relajacion" value="meditacion">Meditación
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="relajacion" value="aromaterapia">Aromaterapía
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="relajacion" value="yoga">Yoga
+                                        </label>
+                                    </div>
+                                    <div class="form-group haceralgo" id="Salud Mentalseleccion" hidden="true">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="salud_mental" value="psiquiatria">Psiquiatría
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="salud_mental" value="psicologia">Psicología
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="salud_mental" value="tpareja">Terapia de pareja
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="salud_mental" value="tocupacional">Terapia ocupacional
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Item</label>
+                                    <input class="form-control" required="required" name="item" placeholder="Ex: watch/salud_mental" value="{{producto.item}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Código del servicio</label>
+                                    <input class="form-control" required="required" name="pCode" placeholder="Enter code" value="{{producto.pCode}}">
+                                </div>
+                                <div class="form-group">
+                                    <tr>
+                                        <td>Link de la imagen actual</td>
+                                        <td>
+                                            <a href="{{url_for('static',filename='image/' ~ producto.picture | safe)}}" target="_blank">{{producto.picture}}
+                                            <input type="hidden" name="picture" value="{{producto.picture}}">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <hr>
+                                    <label>Reemplazar la imagen actual</label>
+                                    <input type="file"  name="picture">
+                                </div>
+                                <button type="submit" class="btn btn-default">Submit Button</button>
+                            </form>
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
+<script src="{{url_for('static',filename='js/add_product.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!-- Modal -->
+<div class="modal modal{{product.id}}" role="document">
+    <div class="modal-dialog" style="max-width: 90%; margin: 56px auto;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <div class="card mb-4">
+                            <img class="card-img-top img-fluid"
+                                 src="static/image/product/{{product.category}}/{{product.picture}}" alt="">
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card card-outline-secondary">
+                            <div class="card-header">
+                                Product Details
+                            </div>
+                            <div class="card-body">
+                                <div class="card-body">
+                                    <h3 class="card-title">Nombre del producto: {{product.pName}}</h3>
+                                    <h4>Precio: ${{product.price}}</h4>
+                                    <p class="card-text">Descripción: {{product.description}}</p>
+                                    <!-- <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                                    4.0 stars -->
+                                </div>
+                                <hr>
+                                <a href="/view_product">Regresar</a>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".id_{{product.id}}").click(function(){
+        $(".modal{{product.id}}").modal({backdrop: true});
+    });
+});
+
+</script>

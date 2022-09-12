@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 my-4">
+            <div class="list-group">
+                <a href="/producto/belleza" class="list-group-item">Belleza</a>
+                <a href="/producto/hogar" class="list-group-item">Hogar</a>
+                <a href="/producto/relajacion" class="list-group-item">Relajación</a>
+                <a href="/producto/salud_mental" class="list-group-item">Salud Mental</a>
+            </div>
+        </div>
+        <form action="/guadar_elecciones" method="post">
+            <input type="hidden" name="uid" value="{{usuario.id}}">
+            <input type="submit" value="¡Sí lo quiero!">
+            <div class="col-lg-9">
+                <div class="row">
+                    {% for product in productos %}
+                    <div class="col-lg-6">
+                        <div class="card mt-4">
+                            <img class="card-img-top img-fluid"
+                                src="/static/archivos/{{product.picture}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card card-outline-secondary my-4">
+                            <div class="card-header">
+                                Product Details
+                            </div>
+                            <div class="card-body">
+                                <a href="/ver_producto_individual/{{product.id}}" class="card-title">{{ product.pName}}</a>
+                                <h4>${{ product.price}}</h4>
+                                <p class="card-text">{{ product.description}}</p>
+                                <input type="checkbox" name="producto_elegido" id="{{product.id}}" value="{{product.id}}">
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>   
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

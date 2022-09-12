@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 my-4">
+            <div class="list-group">
+                <a href="/producto/belleza" class="list-group-item">Belleza</a>
+                <a href="/producto/hogar" class="list-group-item">Hogar</a>
+                <a href="/producto/relajacion" class="list-group-item">Relajación</a>
+                <a href="/producto/salud_mental" class="list-group-item">Salud Mental</a>
+            </div>
+        </div>
+        <div class="container" style="padding: 50px;">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card card-outline-secondary my-4">
+                        <div class="card-header">
+                            Order Details
+                        </div>
+                        {% if productos != False %}
+                            <div class="card-body">
+                                {% from "includes/_formhelpers.html" import render_field %}
+                                <form method="POST" action="/enviar_compra">
+                                    <label for="oplace">Dirección de envío</label>
+                                    <input type="text" name="oplace" id="oplace">
+                                    <label for="mobile">Número de contacto</label>
+                                    <input type="text" name="mobile" id="mobile">
+                                    <p>*Nota: Si no desea un producto su cantidad debe ser igual a cero</p>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre producto</th>
+                                                <th>Precio</th>
+                                                <th>Cantidad</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody >
+                                            {% for producto in productos %}
+                                                <tr>
+                                                    <td>{{producto.pName}}</td>
+                                                    <td>{{producto.price}}</td>
+                                                    <td><input type="number" name="quantity" id="quantity" value="1"></td>
+                                                    <td><a href="/eliminar_un_producto/{{producto.id}}">Eliminar</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    
+                                    <input type="submit" class="btn btn-primary" value="Confirmar orden" name="accion">
+                                    <input type="submit"class="btn btn-primary" value="Vaciar" name="accion">
+                                </form>
+                            </div>
+                        {% else %}
+                            <h2>El carrito está vacio</h2>
+                            <a href="/view_product">Ver lista de productos</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
