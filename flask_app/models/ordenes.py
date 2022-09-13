@@ -43,7 +43,7 @@ class Ordenes:
 
     @classmethod
     def consulta_todo_por_pedido(cls, data):
-        query = "SELECT * FROM orders WHERE  dstatus = 'borrador' AND id_pedido=%(id)s"
+        query = "SELECT * FROM orders WHERE id_pedido=%(id_pedido)s"
         result = connectToMySQL('ecomerce_algo').query_db(query,data)
         lista_resultados = []
         if len(result) < 1: 
@@ -54,7 +54,13 @@ class Ordenes:
             return lista_resultados
 
     @classmethod
-    def eliminar_producto_odenado_id(cls,data):
+    def eliminar_un_producto_ordenado(cls,data):
         query = "DELETE FROM orders WHERE id=%(id)s;"
+        result = connectToMySQL('ecomerce_algo').query_db(query,data)
+        return result
+
+    @classmethod
+    def actualizar_por_pedido(cls,data):
+        query = "UPDATE orders SET quantity=%(quantity)s, oplace=%(oplace)s, mobile=%(mobile)s, dstatus=%(dstatus)s, ddate=%(ddate)s, id_pedido=%(id_pedido)s WHERE id=%(id)s;"
         result = connectToMySQL('ecomerce_algo').query_db(query,data)
         return result

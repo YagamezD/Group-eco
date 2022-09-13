@@ -15,20 +15,19 @@
                 <div class="col-lg-6">
                     <div class="card card-outline-secondary my-4">
                         <div class="card-header">
-                            Order Details
+                            Resumen del pedido
                         </div>
                         {% if productos != False %}
                             <div class="card-body">
                                 {% from "includes/_formhelpers.html" import render_field %}
-                                <form method="POST" action="/enviar_compra">
-                                    <p>*Nota: Si no desea un producto su cantidad debe ser igual a cero</p>
+                                    <h1>Número de pedido: {{pedido[0].id_pedido}}</h1>
                                     <hr>
                                     <label for="oplace">Dirección de envío</label>
-                                    <input type="text" name="oplace" id="oplace">
+                                    <p>{{ pedido[0].oplace }}</p>
                                     <label for="mobile">Número de contacto</label>
-                                    <input type="text" name="mobile" id="mobile">
+                                    <p>{{ pedido[0].mobile }}</p>
                                     <label for="ddate">Fecha de entrega</label>
-                                    <input type="date" name="ddate" id="ddate" min="{{session.hoy}}">
+                                    <p>{{ pedido[0].ddate }}</p>
                                     <hr>
                                     <table>
                                         <thead>
@@ -36,7 +35,7 @@
                                                 <th>Nombre producto</th>
                                                 <th>Precio</th>
                                                 <th>Cantidad</th>
-                                                <th>Acciones</th>
+                                                <th>Total por producto</th>
                                             </tr>
                                         </thead>
                                         <tbody >
@@ -45,16 +44,20 @@
                                                     <td>{{producto.pName}}
                                                         <input type="hidden" name="id_order" value="{{producto.id_order}}">
                                                     </td>
-                                                    <td>{{producto.price}}</td>
-                                                    <td><input type="number" name="quantity" id="quantity" value="1"></td>
-                                                    <td><a href="/eliminar_un_producto_ordenado/{{producto.id_order}}">Eliminar</a></td>
+                                                    <td>${{producto.price}}</td>
+                                                    <td>{{producto.quantity}}</td>
+                                                    <td>${{producto.total_producto}}</td>                                                 
                                                 </tr>
                                             {% endfor %}
+                                            <tr>
+                                                <td><hr>Total de la compra:</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><hr>${{total}}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                    <input type="submit" class="btn btn-primary" value="Confirmar orden" name="accion">
-                                    <input type="submit"class="btn btn-primary" value="Vaciar" name="accion">
-                                </form>
+                                    <a href="/view_product">Seguir Comprando</a>
                             </div>
                         {% else %}
                             <h2>El carrito está vacio</h2>
