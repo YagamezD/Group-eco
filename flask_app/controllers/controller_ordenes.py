@@ -68,14 +68,15 @@ def carrito_render():
     data_usuario = {'id': session['user_id']}
     usuario = RegisterForm.consulta_por_id(data_usuario)
     productos = Productos.consultar_productos_ordenados_por_id_user(data_usuario)
+    ordenes = Ordenes.consulta_todo_por_usuario(data_usuario)
     session['hoy'] = (datetime.today()).strftime('%Y-%m-%d')
-    return render_template('order_product.html',productos=productos)
+    return render_template('order_product.html',productos=productos,ordenes=ordenes)
 
-@app.route('/eliminar_un_producto_ordenado/<int:id>')
-def eliminar_un_producto_ordenado(id):
-    id_orden_elminar={'id':id}
-    Ordenes.eliminar_un_producto_ordenado(id_orden_elminar)
-    return redirect('/carrito_render')
+# @app.route('/eliminar_un_producto_ordenado/<int:id>')
+# def eliminar_un_producto_ordenado(id):
+#     id_orden_elminar={'id':id}
+#     Ordenes.eliminar_un_producto_ordenado(id_orden_elminar)
+#     return redirect('/carrito_render')
 
 @app.route('/enviar_compra', methods=['POST'])
 def enviar_compra():
@@ -87,6 +88,7 @@ def enviar_compra():
     productos = Productos.consultar_productos_ordenados_por_id_user(data_usuario)
     if request.form['accion'] == 'Vaciar':
         Ordenes.vaciar_carrito(data_usuario)
+        session['cantidad_productos'] = 0
         return redirect('/view_product')
     elif request.form['accion'] == "Confirmar orden":
         lista_de_id_ordenes = [int(x) for x in request.form.getlist('id_order')] 
@@ -103,7 +105,30 @@ def enviar_compra():
                 'id_pedido': numero_pedido
             }        
             Ordenes.actualizar_por_pedido(data_actualizar)
+            session['cantidad_productos'] = 0
         return redirect(f'/resumen_dela_compra/{numero_pedido}')
+    elif request.form['accion'] == 'Eliminar':
+        #PASO1: Guardar todas las novedades
+        lista_de_id_ordenes = [int(x) for x in request.form.getlist('id_order')] 
+        lista_de_cantidad_por_id_orden = [int(x) for x in request.form.getlist('quantity')] 
+        numero_pedido = (datetime.today()).strftime('%Y%m%d%H%M%S')+usuario.username
+        for i in range(0,len(lista_de_id_ordenes)):
+            data_actualizar = {
+                'id': lista_de_id_ordenes[i],
+                'quantity': lista_de_cantidad_por_id_orden[i],
+                'oplace': request.form['oplace'],
+                'mobile': request.form['mobile'],
+                'dstatus': 'borrador',
+                'ddate': request.form['ddate'],
+                'id_pedido': numero_pedido
+            }        
+            Ordenes.actualizar_por_pedido(data_actualizar)
+        #PASO2: Eliminar el registro 
+        id_orden_elminar={'id':request.form['producto_emliminar']}
+        Ordenes.eliminar_un_producto_ordenado(id_orden_elminar)
+        #PASO3: Redireciconar al carrito de compras
+        return redirect('/carrito_render')
+
         
 @app.route('/resumen_dela_compra/<string:numero_pedido>')
 def resumen_dela_compra(numero_pedido):

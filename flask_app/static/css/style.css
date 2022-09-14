@@ -93,3 +93,10 @@ section .section-title {
     margin-bottom: 10px;
 }
 }
+
+
+.whatsapp-icon {
+  height: 30px;
+  width: 30px;
+  border-radius: 10px;
+}

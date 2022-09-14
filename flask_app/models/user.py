@@ -1,3 +1,4 @@
+from unittest import result
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import render_template, redirect, session, request, flash, jsonify
 import re
@@ -56,3 +57,12 @@ class RegisterForm:
         query = "UPDATE users SET id = %(id)s, name=%(name)s,email=%(email)s,username=%(username)s,password=%(password)s,mobile=%(mobile)s WHERE id=%(id)s;"
         result = connectToMySQL('ecomerce_algo').query_db(query, data)
         return result
+
+    @classmethod
+    def consultar_todos_los_usuarios(cls):
+        query = 'SELECT * FROM users;'
+        result = connectToMySQL('ecomerce_algo').query_db(query)
+        lista_de_usarios = []
+        for resultado in result:
+            lista_de_usarios.append(cls(resultado))
+        return lista_de_usarios

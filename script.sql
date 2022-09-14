@@ -177,5 +177,4 @@ CHANGE COLUMN `tpareja` `tpareja` VARCHAR(10) NULL DEFAULT 'no' ,
 CHANGE COLUMN `tocupacional` `tocupacional` VARCHAR(10) NULL DEFAULT 'no' ;
 
 ALTER TABLE `ecomerce_algo`.`product_level` 
-ALTER TABLE `ecomerce_algo`.`product_level` 
 CHANGE COLUMN `yoga` `yoga` VARCHAR(45) NULL DEFAULT 'no' ;

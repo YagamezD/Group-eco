@@ -51,7 +51,7 @@
 
             {% for product in producto %}
             <form action="/guadar_elecciones" method="post">
-                <input type="hidden" name="uid" value="{{usuario.id}}">
+
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
                         <div class="card h-100">
@@ -64,7 +64,15 @@
                                     <a href="/ver_producto_individual/{{product.id}}">{{ product.pName}}</a>
                                 </h5>
                                 <h4>${{product.price}}</h4>
+                                <p class="card-text">{{ product.description}}</p>
+                                {% if session.logged_in %}
                                 <input type="checkbox" name="producto_elegido" id="{{product.id}}" value="{{product.id}}">
+                                    {% for usuario in usuarios %}
+                                        {% if product.user_id  == usuario.id %}
+                                        <a href="https://wa.me/57{{usuario.mobile}}?text=Me%20gustaría%20saber%20más%20acerca%20del%20servicio" target="_blank"><img src="{{url_for('static',filename='/image/6166d374-063a-4933-a385-5a971517908c.jpg')}}" alt="icono whatsapp" class="whatsapp-icon"> </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted"></small>
@@ -73,7 +81,9 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% if session.logged_in %}
                 <input type="submit" value="¡Sí lo quiero!">
+                {% endif %}
             </form>    
         </div>
     </div>

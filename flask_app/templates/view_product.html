@@ -31,7 +31,14 @@
                                 <a href="/ver_producto_individual/{{product.id}}" class="card-title">{{ product.pName}}</a>
                                 <h4>${{ product.price}}</h4>
                                 <p class="card-text">{{ product.description}}</p>
+                                {% if session.logged_in %}
                                 <input type="checkbox" name="producto_elegido" id="{{product.id}}" value="{{product.id}}">
+                                    {% for usuario in usuarios %}
+                                        {% if product.user_id  == usuario.id %}
+                                        <a href="https://wa.me/57{{usuario.mobile}}?text=Me%20gustaría%20saber%20más%20acerca%20del%20servicio" target="_blank"><img src="{{url_for('static',filename='/image/6166d374-063a-4933-a385-5a971517908c.jpg')}}" alt="icono whatsapp" class="whatsapp-icon"> </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                     </div>

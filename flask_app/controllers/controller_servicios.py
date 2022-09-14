@@ -4,6 +4,7 @@ from flask_app import app
 from datetime import datetime
 from flask_app.models.products import Productos
 from flask_app.models.product_level import ProductLevel
+from flask_app.models.ordenes import Ordenes
 import os
 from werkzeug.utils import secure_filename
 from flask_app.models.user import RegisterForm
@@ -63,23 +64,43 @@ def registrar_producto():
 def view_product():
     productos = Productos.consultar_todos()
     # print("ESTO ES LO QUE BUSCAS", session['logged_in'] )
+    if 'user_id' not in session:
+        return redirect('/')
+    
     data_usuario = {'id': session['user_id']}
     usuario = RegisterForm.consulta_por_id(data_usuario)
-    return render_template('view_product.html', productos=productos,usuario=usuario)
+    lista_lo_guardado = Ordenes.consulta_todo_por_usuario(data_usuario)
+    if lista_lo_guardado == False:
+        session['cantidad_productos'] = 0
+    else: 
+        session['cantidad_productos'] = len(lista_lo_guardado)
+    if 'user_id' in session:
+        usuarios = RegisterForm.consultar_todos_los_usuarios()
+        return render_template('view_product.html', productos=productos,usuario=usuario,usuarios=usuarios)
+    else:
+        return render_template('view_product.html', productos=productos,usuario=usuario)
+    
 
 @app.route('/producto/<string:valor>')
 def producto_individual(valor):
     category = {'category': valor}
     productos = Productos.consultar_por_categoria(category)
-    data_usuario = {'id': session['user_id']}
-    usuario = RegisterForm.consulta_por_id(data_usuario)
-    return render_template('productos_individuales.html',producto=productos,valor=valor,usuario=usuario)
+    if 'user_id' in session:
+        usuarios = RegisterForm.consultar_todos_los_usuarios()
+        return render_template('productos_individuales.html',producto=productos,valor=valor,usuarios=usuarios)
+    else:
+        return render_template('productos_individuales.html',producto=productos,valor=valor)
 
 @app.route('/lista_mis_productos')
 def lista_mis_productos():
     data_usuario = {'id': session['user_id']}
     productos = Productos.consultar_mis_productos_creados(data_usuario)
     usuario = RegisterForm.consulta_por_id(data_usuario)
+    lista_lo_guardado = Ordenes.consulta_todo_por_usuario(data_usuario)
+    if lista_lo_guardado == False:
+        session['cantidad_productos'] = 0
+    else: 
+        session['cantidad_productos'] = len(lista_lo_guardado)
     return render_template('ver_mis_productos.html',productos=productos,usuario=usuario)
 
 @app.route('/ver_producto_individual/<int:id>')

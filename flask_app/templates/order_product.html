@@ -21,14 +21,13 @@
                             <div class="card-body">
                                 {% from "includes/_formhelpers.html" import render_field %}
                                 <form method="POST" action="/enviar_compra">
-                                    <p>*Nota: Si no desea un producto su cantidad debe ser igual a cero</p>
                                     <hr>
                                     <label for="oplace">Dirección de envío</label>
-                                    <input type="text" name="oplace" id="oplace">
+                                    <input type="text" name="oplace" id="oplace" value="{{ordenes[0].oplace}}">
                                     <label for="mobile">Número de contacto</label>
-                                    <input type="text" name="mobile" id="mobile">
+                                    <input type="text" name="mobile" id="mobile" value="{{ordenes[0].mobile}}">
                                     <label for="ddate">Fecha de entrega</label>
-                                    <input type="date" name="ddate" id="ddate" min="{{session.hoy}}">
+                                    <input type="date" name="ddate" id="ddate" min="{{session.hoy}}" value="{{ordenes[0].ddate}}">
                                     <hr>
                                     <table>
                                         <thead>
@@ -46,8 +45,11 @@
                                                         <input type="hidden" name="id_order" value="{{producto.id_order}}">
                                                     </td>
                                                     <td>{{producto.price}}</td>
-                                                    <td><input type="number" name="quantity" id="quantity" value="1"></td>
-                                                    <td><a href="/eliminar_un_producto_ordenado/{{producto.id_order}}">Eliminar</a></td>
+                                                    <td><input type="number" name="quantity" id="quantity" value="1"></td> 
+                                                    <td>
+                                                            <input type="hidden" value="{{producto.id_order}}" name="producto_emliminar">
+                                                            <input type="submit"class="btn btn-primary" value="Eliminar" name="accion">                                                   
+                                                    </td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>

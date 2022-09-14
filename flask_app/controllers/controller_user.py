@@ -51,7 +51,7 @@ def login():
     if not bcrypt.check_password_hash(user.password,request.form["password"]):
         # flash("Contraseña inválida por favor verifique", 'login')
         # return redirect('/')
-        return redirect('/login')
+        return redirect('/ingresar')
     else:
         session['logged_in'] = True
         session['userid'] = userid
